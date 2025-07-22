@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+html, body {
+  @apply w-full text-gray-900 antialiased;
+}
+/* body{
+  background-image: url('/img/bg.png');
+  background-size: cover;
+} */
+
+@theme inline {
+  --color-bittersweet: #FF6767;
+  --color-dodgerblue: #3ABEFF;  
+  --color-santasgrey: #A1A3AB;  
+
+  --spacing-small: 4px;
+  --spacing-medium: 8px;
+  --spacing-large: 16px;
+  --spacing-xlarge: 24px;
+  --spacing-2xlarge: 32px;
+  --spacing-3xlarge: 40px;
+  --spacing-4xlarge: 48px;
+
+  --shadow-custom: 0px 0px 0px 1px rgb(140 140 140/.2);
+
+  --main-container: 1100px;
+}
+
