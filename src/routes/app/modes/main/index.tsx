@@ -1,6 +1,6 @@
 import HandWave from '@assets/img/svg/icons/HandWave.svg';
 
-export const Dashboard = () => (
+export const Main = () => (
   <div className="max-w-[960px] px-[76px]">
     <div className="font-medium text-4xl flex flex-row items-center">
       <div>Welcome back, Sundar</div>
@@ -19,3 +19,5 @@ export const Dashboard = () => (
     </div>
   </div>
 );
+
+export default Main;

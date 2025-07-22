@@ -1,3 +1,9 @@
 export enum Routes {
-  home = '/',
+  app = '/',
+  appMode = '/[mode]',
+}
+
+export enum AppModes {
+  main = 'main',
+  board = 'board',
 }
