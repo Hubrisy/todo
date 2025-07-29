@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 
 import { AppModes } from '..';
 
-import { Header } from '@/components/header';
+import { HeaderDekstop } from '@/components/header/HeaderDekstop';
+import { HeaderMobile } from '@/components/header/HeaderMobile';
 import { Navigation } from '@/components/navigation';
 
 const Main = dynamic(() => import('./modes/main'));
@@ -22,10 +23,21 @@ const App = () => {
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-full h-full bg-white rounded-xl">
-        <Header />
+        <div>
+          <div className="hidden sm:block">
+            <HeaderDekstop />
+          </div>
+          <div className="block sm:hidden">
+            <HeaderMobile />
+          </div>
+        </div>
         <div className="flex mt-14">
-          <Navigation />
-          {!!Component && <Component />}
+          <div className="hidden sm:block">
+            <Navigation />
+          </div>
+          <div className="min-w-[85%] m-auto">
+            {!!Component && <Component />}
+          </div>
         </div>
       </div>
     </div>

@@ -1,23 +1,36 @@
 import HandWave from '@assets/img/svg/icons/HandWave.svg';
 
-export const Main = () => (
-  <div className="max-w-[960px] px-[76px]">
-    <div className="font-medium text-4xl flex flex-row items-center">
-      <div>Welcome back, Sundar</div>
-      <div className="ml-4">
-        <HandWave />
+import { Todo } from './todo';
+
+import { useDate } from '@/hooks/useDate';
+
+export const Main = () => {
+  const { date, dayName } = useDate();
+
+  return (
+    <div className="">
+      <div className="font-medium text-2xl flex flex-row items-center">
+        <div className="flex flex-row">
+          <div>Welcome back</div>
+          <div className="ml-4">
+            <HandWave />
+          </div>
+        </div>
       </div>
-    </div>
-    <div className="border-santasgrey border-2 mt-8 w-full">
-      <div className="px-6 py-5 flex">
-        <div>yo</div>
+      <div className="mt-3 w-full">
         <div>
-          <div>yo</div>
-          <div>yo</div>
+          <div className="mt-2 text-[14px] font-medium">
+            <span>{date.toLocaleDateString()}</span> - <span>{dayName}</span>
+          </div>
+        </div>
+        <div className="flex mt-4 ">
+          <div className="w-full">
+            <Todo />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Main;
