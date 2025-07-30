@@ -12,6 +12,12 @@ export enum TodoPriority {
   'low' = 'low',
 }
 
+export type ColourOption = {
+  value: string;
+  label: string;
+  color: string;
+};
+
 export enum TodoStatuses {
   'not_started' = 'not_started',
   'in_progress' = 'in_progress',

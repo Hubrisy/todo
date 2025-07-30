@@ -1,19 +1,18 @@
 import { useState } from 'react';
-import clsx from 'clsx';
 
 import Button from '../../components/button';
 import Input from '../../components/input';
-import Select from '../../components/select';
 
+import ColourSelect from '@/components/customSelect';
 import { useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
 import { TodoPriority, TodoStatuses, type TodoTypes } from '@/types';
 
-const todoPriorityColorSystem = {
-  extreme: '#F21E1E',
-  moderate: '#3ABEFF',
-  low: '#05A301',
-};
+const todoPriorityColorSystem = [
+  { value: 'extreme', label: 'Extreme', color: '#F21E1E' },
+  { value: 'moderate', label: 'Moderate', color: '#3ABEFF' },
+  { value: 'low', label: 'Low', color: '#05A301' },
+];
 
 export const Modal = () => {
   const { setModal } = useModalContext();
@@ -31,6 +30,8 @@ export const Modal = () => {
     setTodos([...todos, todoInfo]);
     setModal(undefined);
   };
+
+  console.log(todoInfo);
 
   return (
     <div className="fixed inset-0 bg-[#0000008f] flex items-center justify-center">
@@ -68,27 +69,15 @@ export const Modal = () => {
               />
             </div>
             <div className="mt-3">
-              <div>Priority</div>
-              <Select
-                value={todoInfo.priority}
-                onChange={e =>
-                  setTodoInfo({
-                    ...todoInfo,
-                    priority: e.target.value as TodoPriority,
-                  })
+              <div>Description</div>
+              <ColourSelect
+                defaultValue={todoPriorityColorSystem[0]}
+                options={todoPriorityColorSystem}
+                onChange={value =>
+                  setTodoInfo({ ...todoInfo, priority: value as TodoPriority })
                 }
-                className="border-santasgrey border-[1px] w-full h-10 rounded-lg"
-              >
-                {Object.values(TodoPriority).map(state => (
-                  <option
-                    key={state}
-                    value={state}
-                    className={clsx(`text-[${todoPriorityColorSystem[state]}`)}
-                  >
-                    {state}
-                  </option>
-                ))}
-              </Select>
+                value={todoInfo.priority}
+              />
             </div>
             <div className="mt-3">
               <div>Description</div>
