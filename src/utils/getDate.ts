@@ -1,4 +1,4 @@
-export const useDate = () => {
+export const getDate = () => {
   const date = new Date();
 
   const days = [

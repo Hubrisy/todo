@@ -31,8 +31,6 @@ export const Modal = () => {
     setModal(undefined);
   };
 
-  console.log(todoInfo);
-
   return (
     <div className="fixed inset-0 bg-[#0000008f] flex items-center justify-center">
       <div className="w-[90%] h-[70%] bg-white p-4 rounded-lg shadow-lg">

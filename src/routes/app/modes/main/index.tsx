@@ -2,10 +2,10 @@ import HandWave from '@assets/img/svg/icons/HandWave.svg';
 
 import { Todo } from './todo';
 
-import { useDate } from '@/hooks/useDate';
+import { getDate } from '@/utils/getDate';
 
 export const Main = () => {
-  const { date, dayName } = useDate();
+  const { date, dayName } = getDate();
 
   return (
     <div className="">

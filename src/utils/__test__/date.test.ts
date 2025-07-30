@@ -1,4 +1,4 @@
-import { getFormattedDate, months } from '../../hooks/useDate';
+import { getFormattedDate, months } from '../getDate';
 
 describe(`utils/date`, () => {
   test(`should return the correct date format if days are 0`, () => {

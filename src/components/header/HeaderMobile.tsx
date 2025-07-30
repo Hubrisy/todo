@@ -11,11 +11,11 @@ import { navModes } from '../navigation/data';
 import styles from './styles.module.scss';
 
 import { ModalType, useModalContext } from '@/context/modal';
-import { useDate } from '@/hooks/useDate';
 import { type AppModes, Routes } from '@/routes';
+import { getDate } from '@/utils/getDate';
 
 export const HeaderMobile: React.FC = () => {
-  const { date, dayName } = useDate();
+  const { date, dayName } = getDate();
   const { modal, setModal } = useModalContext();
 
   const { query, push } = useRouter();
