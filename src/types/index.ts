@@ -1,6 +1,6 @@
 export interface TodoTypes {
   title: string;
-  date: string;
+  date: Date | null;
   priority: TodoPriority;
   statuses: TodoStatuses;
   description: string;

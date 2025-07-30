@@ -32,14 +32,14 @@ export const Todo = () => {
           </div>
         </div>
         <div className="mt-6">
-          {todos.map(item => (
+          {todos.map((item, index) => (
             <TodoItem
               date={item.date}
               description={item.description}
               priority={item.priority}
               statuses={item.statuses}
               title={item.title}
-              key={item.title}
+              key={index}
             />
           ))}
         </div>

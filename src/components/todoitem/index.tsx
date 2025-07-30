@@ -16,7 +16,7 @@ export const TodoItem: React.FC<TodoTypes> = ({
         <div className="mt-7 flex text-[10px] font-normal justify-between">
           <div>Priority: {priority}</div>
           <div>Status: {statuses}</div>
-          <div>Created on: {date}</div>
+          <div>Created on: {date?.toLocaleDateString()}</div>
         </div>
       </div>
     </div>

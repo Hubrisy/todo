@@ -4,6 +4,7 @@ import Button from '../../components/button';
 import Input from '../../components/input';
 
 import ColourSelect from '@/components/customSelect';
+import { DatePickerComponent } from '@/components/datePicker';
 import { useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
 import { TodoPriority, TodoStatuses, type TodoTypes } from '@/types';
@@ -21,7 +22,7 @@ export const Modal = () => {
   const [todoInfo, setTodoInfo] = useState<TodoTypes>({
     title: '',
     description: '',
-    date: '',
+    date: new Date(),
     statuses: TodoStatuses.not_started,
     priority: TodoPriority.low,
   });
@@ -45,7 +46,7 @@ export const Modal = () => {
               <div className="h-[1px] bg-black" />
             </div>
           </div>
-          <div className="mt-6">
+          <form className="mt-6">
             <div>
               <div>Title</div>
               <Input
@@ -58,12 +59,10 @@ export const Modal = () => {
             </div>
             <div className="mt-3">
               <div>Date</div>
-              <Input
+              <DatePickerComponent
+                className="border-santasgrey border-[1px] min-w-full rounded-lg p-2 max-h-[36px]"
+                onChange={date => setTodoInfo({ ...todoInfo, date })}
                 value={todoInfo.date}
-                onChange={e =>
-                  setTodoInfo({ ...todoInfo, date: e.target.value })
-                }
-                className="border-santasgrey border-[1px]"
               />
             </div>
             <div className="mt-3">
@@ -95,7 +94,7 @@ export const Modal = () => {
                 Done
               </Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
