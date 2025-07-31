@@ -22,8 +22,11 @@ export const Todo = () => {
               To-Do
             </div>
           </div>
-          <div className="flex items-center">
-            <div onClick={() => setModal(ModalType.todo)}>
+          <div
+            className="flex items-center"
+            onClick={() => setModal(ModalType.todo)}
+          >
+            <div>
               <PlusBtn />
             </div>
             <div className="font-normal text-[12px] text-santasgrey ml-1.5">
@@ -32,16 +35,20 @@ export const Todo = () => {
           </div>
         </div>
         <div className="mt-6">
-          {todos.map((item, index) => (
-            <TodoItem
-              date={item.date}
-              description={item.description}
-              priority={item.priority}
-              statuses={item.statuses}
-              title={item.title}
-              key={index}
-            />
-          ))}
+          {todos.length ? (
+            todos.map((item, index) => (
+              <TodoItem
+                date={item.date}
+                description={item.description}
+                priority={item.priority}
+                statuses={item.statuses}
+                title={item.title}
+                key={index}
+              />
+            ))
+          ) : (
+            <div className="text-center text-xl font-medium">No todo yet</div>
+          )}
         </div>
       </div>
       <div>{modal === ModalType.todo && <Modal />}</div>

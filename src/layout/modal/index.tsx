@@ -3,13 +3,14 @@ import { useState } from 'react';
 import Button from '../../components/button';
 import Input from '../../components/input';
 
+import type { SelectOption } from '@/components/customSelect';
 import ColourSelect from '@/components/customSelect';
 import { DatePickerComponent } from '@/components/datePicker';
 import { useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
 import { TodoPriority, TodoStatuses, type TodoTypes } from '@/types';
 
-const todoPriorityColorSystem = [
+const todoPriorityOptions: Array<SelectOption> = [
   { value: 'extreme', label: 'Extreme', color: '#F21E1E' },
   { value: 'moderate', label: 'Moderate', color: '#3ABEFF' },
   { value: 'low', label: 'Low', color: '#05A301' },
@@ -46,7 +47,13 @@ export const Modal = () => {
               <div className="h-[1px] bg-black" />
             </div>
           </div>
-          <form className="mt-6">
+          <form
+            className="mt-6"
+            onSubmit={e => {
+              e.preventDefault();
+              saveTodo();
+            }}
+          >
             <div>
               <div>Title</div>
               <Input
@@ -54,6 +61,8 @@ export const Modal = () => {
                 onChange={e =>
                   setTodoInfo({ ...todoInfo, title: e.target.value })
                 }
+                minLength={3}
+                required
                 className="border-santasgrey border-[1px]"
               />
             </div>
@@ -68,12 +77,19 @@ export const Modal = () => {
             <div className="mt-3">
               <div>Description</div>
               <ColourSelect
-                defaultValue={todoPriorityColorSystem[0]}
-                options={todoPriorityColorSystem}
-                onChange={value =>
-                  setTodoInfo({ ...todoInfo, priority: value as TodoPriority })
+                defaultValue={todoPriorityOptions[0]}
+                options={todoPriorityOptions}
+                onChange={option =>
+                  setTodoInfo({
+                    ...todoInfo,
+                    priority: option?.value as TodoPriority,
+                  })
                 }
-                value={todoInfo.priority}
+                value={
+                  todoPriorityOptions.find(
+                    option => option.value === todoInfo.priority,
+                  ) ?? null
+                }
               />
             </div>
             <div className="mt-3">
@@ -83,13 +99,14 @@ export const Modal = () => {
                 onChange={e =>
                   setTodoInfo({ ...todoInfo, description: e.target.value })
                 }
+                required
                 className="border-santasgrey border-[1px] w-full rounded-lg p-2 max-h-[80px] overflow-y-auto"
               />
             </div>
             <div className="mt-6">
               <Button
                 className="w-[90px] h-8 text-white bg-bittersweet"
-                onClick={saveTodo}
+                type="submit"
               >
                 Done
               </Button>
