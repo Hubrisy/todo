@@ -1,7 +1,7 @@
 import EditImg from '@assets/img/svg/icons/Edit.svg';
 import clsx from 'clsx';
 
-import { useModalContext } from '@/context/modal';
+import { ModalType, useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
 import type { TodoType } from '@/types';
 
@@ -14,8 +14,13 @@ export const TodoItem: React.FC<TodoType> = ({
   creationDate,
   id,
 }) => {
-  const { editTodoModal } = useModalContext();
+  const { setModal } = useModalContext();
   const { setSelectedTodoId } = useTodosContext();
+
+  const onEdit = () => {
+    setSelectedTodoId(id);
+    setModal(ModalType.editTodo);
+  };
 
   return (
     <div className="w-full border-santasgrey border-[1px] rounded-xl mt-4">
@@ -78,10 +83,7 @@ export const TodoItem: React.FC<TodoType> = ({
           </div>
         </div>
         {id !== null && (
-          <div
-            className="absolute right-2 top-3.5"
-            onClick={() => editTodoModal(id, setSelectedTodoId)}
-          >
+          <div className="absolute right-2 top-3.5" onClick={onEdit}>
             <EditImg />
           </div>
         )}

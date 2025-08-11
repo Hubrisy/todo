@@ -17,13 +17,13 @@ export enum ModalType {
 interface ModalContextType {
   modal: ModalType | undefined;
   setModal: Dispatch<SetStateAction<ModalType | undefined>>;
-  editTodoModal: (id: number, f: (id: number) => void) => void;
+  onClose: () => void;
 }
 
 const defaultModalState: ModalContextType = {
   modal: undefined,
   setModal: () => {},
-  editTodoModal: () => {},
+  onClose: () => {},
 };
 
 const ModalContext = createContext<ModalContextType>(defaultModalState);
@@ -35,10 +35,7 @@ export const ModalContextProvider: React.FC<PropsWithChildren<{}>> = ({
     defaultModalState.modal,
   );
 
-  const editTodoModal = (id: number, f: (id: number) => void) => {
-    setModal(ModalType.editTodo);
-    f(id);
-  };
+  const onClose = () => setModal(undefined);
 
   useEffect(() => {
     if (modal) {
@@ -53,7 +50,7 @@ export const ModalContextProvider: React.FC<PropsWithChildren<{}>> = ({
       value={{
         modal,
         setModal,
-        editTodoModal,
+        onClose,
       }}
     >
       {children}

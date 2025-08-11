@@ -7,11 +7,10 @@ import Image from 'next/image';
 import { TodoItem } from '@/components/todoitem';
 import { ModalType, useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
-import { Modal } from '@/layout/modal';
 import { TodoStatuses } from '@/types';
 
 export const Todo = () => {
-  const { modal, setModal } = useModalContext();
+  const { setModal } = useModalContext();
   const [activeFilter, setActiveFilter] = useState<TodoStatuses>(
     TodoStatuses.not_started,
   );
@@ -118,7 +117,6 @@ export const Todo = () => {
           )}
         </div>
       </div>
-      <div>{modal === ModalType.addTodo && <Modal />}</div>
     </div>
   );
 };
