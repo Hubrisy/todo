@@ -1,19 +1,21 @@
-export interface TodoTypes {
+export interface TodoType {
   title: string;
-  date: Date | null;
+  deadline: Date | null;
   priority: TodoPriority;
   statuses: TodoStatuses;
   description: string;
+  creationDate: Date | null;
+  id: number | null;
 }
 
 export enum TodoPriority {
-  'extreme' = 'extreme',
-  'moderate' = 'moderate',
-  'low' = 'low',
+  'extreme' = 'Extreme',
+  'moderate' = 'Moderate',
+  'low' = 'Low',
 }
 
 export enum TodoStatuses {
-  'not_started' = 'not_started',
-  'in_progress' = 'in_progress',
-  'completed' = 'completed',
+  'not_started' = 'Not Started',
+  'in_progress' = 'In Progress',
+  'completed' = 'Completed',
 }

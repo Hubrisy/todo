@@ -2,13 +2,13 @@ import HandWave from '@assets/img/svg/icons/HandWave.svg';
 
 import { Todo } from './todo';
 
-import { getDate } from '@/utils/getDate';
+import { getCurrentDate } from '@/utils/getDate';
 
 export const Main = () => {
-  const { date, dayName } = getDate();
+  const { date, dayName } = getCurrentDate();
 
   return (
-    <div className="">
+    <div className="mb-4">
       <div className="font-medium text-2xl flex flex-row items-center">
         <div className="flex flex-row">
           <div>Welcome back</div>

@@ -7,11 +7,11 @@ import {
   useState,
 } from 'react';
 
-import type { TodoTypes } from '@/types';
+import type { TodoType } from '@/types';
 
 interface TodosProps {
-  todos: Array<TodoTypes>;
-  setTodos: Dispatch<SetStateAction<Array<TodoTypes>>>;
+  todos: Array<TodoType>;
+  setTodos: Dispatch<SetStateAction<Array<TodoType>>>;
 }
 
 const defaultTodos: TodosProps = {
@@ -24,7 +24,7 @@ const TodosContext = createContext<TodosProps>(defaultTodos);
 export const TodosContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [todos, setTodos] = useState<Array<TodoTypes>>(defaultTodos.todos);
+  const [todos, setTodos] = useState<Array<TodoType>>(defaultTodos.todos);
 
   return (
     <TodosContext.Provider value={{ todos, setTodos }}>

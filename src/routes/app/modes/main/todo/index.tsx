@@ -1,14 +1,39 @@
+import { useMemo, useState } from 'react';
 import Pending from '@assets/img/svg/icons/Pending.svg';
 import PlusBtn from '@assets/img/svg/icons/Plus.svg';
+import clsx from 'clsx';
+import Image from 'next/image';
 
 import { TodoItem } from '@/components/todoitem';
 import { ModalType, useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
 import { Modal } from '@/layout/modal';
+import { TodoStatuses } from '@/types';
 
 export const Todo = () => {
-  const { modal, setModal } = useModalContext();
+  const { modal, setModal, setSelectedTodoId } = useModalContext();
+  // const [filteredTodos, setFilteredTodos] = useState<TodoType[]>([]);
+  const [activeFilter, setActiveFilter] = useState<TodoStatuses>(
+    TodoStatuses.not_started,
+  );
   const { todos } = useTodosContext();
+
+  const createNewTodo = () => {
+    setSelectedTodoId(null);
+    setModal(ModalType.todo);
+  };
+
+  const filteredTodos = useMemo(
+    () => todos.filter(todo => todo.statuses === activeFilter),
+    [todos, activeFilter],
+  );
+
+  const filterTodoFunction = (statuses: TodoStatuses) => {
+    setActiveFilter(statuses);
+  };
+
+  // const filterTodoFunction = (statuses: TodoStatuses) =>
+  //   setFilteredTodos(todos.filter(todo => todo.statuses === statuses));
 
   return (
     <div className="rounded-xl relative z-5">
@@ -22,10 +47,7 @@ export const Todo = () => {
               To-Do
             </div>
           </div>
-          <div
-            className="flex items-center"
-            onClick={() => setModal(ModalType.todo)}
-          >
+          <div className="flex items-center" onClick={createNewTodo}>
             <div>
               <PlusBtn />
             </div>
@@ -34,20 +56,69 @@ export const Todo = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-4">
           {todos.length ? (
-            todos.map((item, index) => (
-              <TodoItem
-                date={item.date}
-                description={item.description}
-                priority={item.priority}
-                statuses={item.statuses}
-                title={item.title}
-                key={index}
-              />
-            ))
+            <div>
+              <div className="flex text-[14px] font-medium justify-between">
+                <div
+                  onClick={() => filterTodoFunction(TodoStatuses.not_started)}
+                  className={clsx(
+                    activeFilter === TodoStatuses.not_started
+                      ? 'text-black border-black'
+                      : 'text-santasgrey border-white',
+                    'border-b-[1px]',
+                  )}
+                >
+                  Not started
+                </div>
+                <div
+                  onClick={() => filterTodoFunction(TodoStatuses.in_progress)}
+                  className={clsx(
+                    activeFilter === TodoStatuses.in_progress
+                      ? 'text-black border-black'
+                      : 'text-santasgrey border-white',
+                    'border-b-[1px]',
+                  )}
+                >
+                  In progress
+                </div>
+                <div
+                  onClick={() => filterTodoFunction(TodoStatuses.completed)}
+                  className={clsx(
+                    activeFilter === TodoStatuses.completed
+                      ? 'text-black border-black'
+                      : 'text-santasgrey border-white',
+                    'border-b-[1px]',
+                  )}
+                >
+                  Completed
+                </div>
+              </div>
+
+              <div>
+                {filteredTodos.map((todo, index) => (
+                  <TodoItem
+                    key={index}
+                    deadline={todo.deadline}
+                    description={todo.description}
+                    priority={todo.priority}
+                    statuses={todo.statuses}
+                    title={todo.title}
+                    creationDate={todo.creationDate}
+                    id={todo.id}
+                  />
+                ))}
+              </div>
+            </div>
           ) : (
-            <div className="text-center text-xl font-medium">No todo yet</div>
+            <div className="flex justify-center">
+              <Image
+                src="/img/notodo3.png"
+                alt="No todo yet"
+                width={300}
+                height={100}
+              />
+            </div>
           )}
         </div>
       </div>

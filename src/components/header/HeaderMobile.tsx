@@ -12,10 +12,10 @@ import styles from './styles.module.scss';
 
 import { ModalType, useModalContext } from '@/context/modal';
 import { type AppModes, Routes } from '@/routes';
-import { getDate } from '@/utils/getDate';
+import { getCurrentDate } from '@/utils/getDate';
 
 export const HeaderMobile: React.FC = () => {
-  const { date, dayName } = getDate();
+  const { date, dayName } = getCurrentDate();
   const { modal, setModal } = useModalContext();
 
   const { query, push } = useRouter();

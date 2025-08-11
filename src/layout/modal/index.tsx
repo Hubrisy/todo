@@ -8,34 +8,65 @@ import ColourSelect from '@/components/customSelect';
 import { DatePickerComponent } from '@/components/datePicker';
 import { useModalContext } from '@/context/modal';
 import { useTodosContext } from '@/context/todo';
-import { TodoPriority, TodoStatuses, type TodoTypes } from '@/types';
+import { TodoPriority, TodoStatuses, type TodoType } from '@/types';
 
 const todoPriorityOptions: Array<SelectOption> = [
-  { value: 'extreme', label: 'Extreme', color: '#F21E1E' },
-  { value: 'moderate', label: 'Moderate', color: '#3ABEFF' },
-  { value: 'low', label: 'Low', color: '#05A301' },
+  { value: 'Extreme', label: 'Extreme', color: '#F21E1E' },
+  { value: 'Moderate', label: 'Moderate', color: '#3ABEFF' },
+  { value: 'Low', label: 'Low', color: '#05A301' },
+];
+
+const todoStatusOptions: Array<SelectOption> = [
+  { value: 'Not Started', label: 'Extreme', color: '#F21E1E' },
+  { value: 'In Progress', label: 'In Progress', color: '#0225FF' },
+  { value: 'Completed', label: 'Completed', color: '#05A301' },
 ];
 
 export const Modal = () => {
-  const { setModal } = useModalContext();
+  const { setModal, selectedTodoId } = useModalContext();
   const { todos, setTodos } = useTodosContext();
 
-  const [todoInfo, setTodoInfo] = useState<TodoTypes>({
-    title: '',
-    description: '',
-    date: new Date(),
-    statuses: TodoStatuses.not_started,
-    priority: TodoPriority.low,
+  const [todoInfo, setTodoInfo] = useState<TodoType>(() => {
+    const editingTodo = todos.find(todo => todo.id === selectedTodoId);
+
+    if (editingTodo) {
+      return editingTodo;
+    }
+
+    return {
+      title: '',
+      description: '',
+      deadline: new Date(),
+      statuses: TodoStatuses.not_started,
+      priority: TodoPriority.low,
+      creationDate: new Date(),
+      id: null,
+    };
   });
 
   const saveTodo = () => {
-    setTodos([...todos, todoInfo]);
+    let updatedTodos: Array<TodoType> = [];
+
+    if (!!todoInfo.id && !!selectedTodoId && todoInfo.id === selectedTodoId) {
+      updatedTodos = todos.map(item =>
+        item.id === selectedTodoId ? { ...todoInfo } : item,
+      );
+    } else {
+      const newTodo: TodoType = {
+        ...todoInfo,
+        id: todos.length + 1,
+      };
+
+      updatedTodos = [...todos, newTodo];
+    }
+
+    setTodos(updatedTodos);
     setModal(undefined);
   };
 
   return (
     <div className="fixed inset-0 bg-[#0000008f] flex items-center justify-center">
-      <div className="w-[90%] h-[70%] bg-white p-4 rounded-lg shadow-lg">
+      <div className="w-[90%] bg-white p-4 rounded-lg shadow-lg">
         <div className="">
           <div className="flex justify-between font-semibold">
             <div className="cursor-pointer">
@@ -67,15 +98,15 @@ export const Modal = () => {
               />
             </div>
             <div className="mt-3">
-              <div>Date</div>
+              <div>Complete by this date</div>
               <DatePickerComponent
                 className="border-santasgrey border-[1px] min-w-full rounded-lg p-2 max-h-[36px]"
-                onChange={date => setTodoInfo({ ...todoInfo, date })}
-                value={todoInfo.date}
+                onChange={deadline => setTodoInfo({ ...todoInfo, deadline })}
+                value={todoInfo.deadline}
               />
             </div>
             <div className="mt-3">
-              <div>Description</div>
+              <div>Priority</div>
               <ColourSelect
                 defaultValue={todoPriorityOptions[0]}
                 options={todoPriorityOptions}
@@ -91,6 +122,28 @@ export const Modal = () => {
                   ) ?? null
                 }
               />
+            </div>
+            <div>
+              {!!todoInfo.id && (
+                <div className="mt-3">
+                  <div>Statuses</div>
+                  <ColourSelect
+                    defaultValue={todoStatusOptions[0]}
+                    options={todoStatusOptions}
+                    onChange={option =>
+                      setTodoInfo({
+                        ...todoInfo,
+                        statuses: option?.value as TodoStatuses,
+                      })
+                    }
+                    value={
+                      todoStatusOptions.find(
+                        option => option.value === todoInfo.statuses,
+                      ) ?? null
+                    }
+                  />
+                </div>
+              )}
             </div>
             <div className="mt-3">
               <div>Description</div>
