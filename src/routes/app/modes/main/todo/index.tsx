@@ -11,16 +11,15 @@ import { Modal } from '@/layout/modal';
 import { TodoStatuses } from '@/types';
 
 export const Todo = () => {
-  const { modal, setModal, setSelectedTodoId } = useModalContext();
-  // const [filteredTodos, setFilteredTodos] = useState<TodoType[]>([]);
+  const { modal, setModal } = useModalContext();
   const [activeFilter, setActiveFilter] = useState<TodoStatuses>(
     TodoStatuses.not_started,
   );
-  const { todos } = useTodosContext();
+  const { todos, setSelectedTodoId } = useTodosContext();
 
   const createNewTodo = () => {
     setSelectedTodoId(null);
-    setModal(ModalType.todo);
+    setModal(ModalType.addTodo);
   };
 
   const filteredTodos = useMemo(
@@ -31,9 +30,6 @@ export const Todo = () => {
   const filterTodoFunction = (statuses: TodoStatuses) => {
     setActiveFilter(statuses);
   };
-
-  // const filterTodoFunction = (statuses: TodoStatuses) =>
-  //   setFilteredTodos(todos.filter(todo => todo.statuses === statuses));
 
   return (
     <div className="rounded-xl relative z-5">
@@ -122,7 +118,7 @@ export const Todo = () => {
           )}
         </div>
       </div>
-      <div>{modal === ModalType.todo && <Modal />}</div>
+      <div>{modal === ModalType.addTodo && <Modal />}</div>
     </div>
   );
 };

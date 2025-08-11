@@ -9,23 +9,20 @@ import React, {
 } from 'react';
 
 export enum ModalType {
-  'todo' = 'todo',
+  'addTodo' = 'addTodo',
+  'editTodo' = 'editTodo',
   'burger' = 'burger',
 }
 
 interface ModalContextType {
   modal: ModalType | undefined;
   setModal: Dispatch<SetStateAction<ModalType | undefined>>;
-  selectedTodoId: number | null;
-  setSelectedTodoId: Dispatch<SetStateAction<number | null>>;
-  editTodoModal: (id: number) => void;
+  editTodoModal: (id: number, f: (id: number) => void) => void;
 }
 
 const defaultModalState: ModalContextType = {
   modal: undefined,
-  selectedTodoId: null,
   setModal: () => {},
-  setSelectedTodoId: () => {},
   editTodoModal: () => {},
 };
 
@@ -37,13 +34,10 @@ export const ModalContextProvider: React.FC<PropsWithChildren<{}>> = ({
   const [modal, setModal] = useState<ModalContextType['modal']>(
     defaultModalState.modal,
   );
-  const [selectedTodoId, setSelectedTodoId] = useState<
-    ModalContextType['selectedTodoId']
-  >(defaultModalState.selectedTodoId);
 
-  const editTodoModal = (id: number) => {
-    setModal(ModalType.todo);
-    setSelectedTodoId(id);
+  const editTodoModal = (id: number, f: (id: number) => void) => {
+    setModal(ModalType.editTodo);
+    f(id);
   };
 
   useEffect(() => {
@@ -59,8 +53,6 @@ export const ModalContextProvider: React.FC<PropsWithChildren<{}>> = ({
       value={{
         modal,
         setModal,
-        selectedTodoId,
-        setSelectedTodoId,
         editTodoModal,
       }}
     >

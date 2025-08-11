@@ -17,14 +17,14 @@ const todoPriorityOptions: Array<SelectOption> = [
 ];
 
 const todoStatusOptions: Array<SelectOption> = [
-  { value: 'Not Started', label: 'Extreme', color: '#F21E1E' },
+  { value: 'Not Started', label: 'Not Started', color: '#F21E1E' },
   { value: 'In Progress', label: 'In Progress', color: '#0225FF' },
   { value: 'Completed', label: 'Completed', color: '#05A301' },
 ];
 
 export const Modal = () => {
-  const { setModal, selectedTodoId } = useModalContext();
-  const { todos, setTodos } = useTodosContext();
+  const { setModal } = useModalContext();
+  const { todos, setTodos, selectedTodoId } = useTodosContext();
 
   const [todoInfo, setTodoInfo] = useState<TodoType>(() => {
     const editingTodo = todos.find(todo => todo.id === selectedTodoId);
